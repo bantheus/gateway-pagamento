@@ -10,6 +10,7 @@ import (
 	"github.com/bantheus/gateway-pagamento/api-go/internal/service"
 	"github.com/bantheus/gateway-pagamento/api-go/internal/web/server"
 	"github.com/joho/godotenv"
+	_ "github.com/lib/pq"
 )
 
 func getEnv(key, defaultValue string) string {
