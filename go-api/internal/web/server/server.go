@@ -27,7 +27,7 @@ func (s *Server) ConfigureRoutes() {
 	accountHandler := handlers.NewAccountHandler(s.accounteService)
 
 	s.router.Post("/accounts", accountHandler.Create)
-	s.router.Get("/accountes", accountHandler.Get)
+	s.router.Get("/accounts", accountHandler.Get)
 }
 
 func (s *Server) Start() error {
