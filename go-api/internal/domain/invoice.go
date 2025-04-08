@@ -17,7 +17,7 @@ const (
 
 type Invoice struct {
 	ID             string
-	AccountId      string
+	AccountID      string
 	Amount         float64
 	Status         Status
 	Description    string
@@ -44,7 +44,7 @@ func NewInvoice(accountId string, amount float64, description string, paymentMet
 
 	return &Invoice{
 		ID:             uuid.New().String(),
-		AccountId:      accountId,
+		AccountID:      accountId,
 		Amount:         amount,
 		Status:         StatusPending,
 		Description:    description,
