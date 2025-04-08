@@ -17,7 +17,7 @@ func NewInvoiceService(invoiceService domain.InvoiceRepository, accountService A
 	}
 }
 
-func (s *InvoiceService) Create(input *dto.CreateInvoiceInput) (*dto.InvoiceOutput, error) {
+func (s *InvoiceService) Create(input dto.CreateInvoiceInput) (*dto.InvoiceOutput, error) {
 	accountOutput, err := s.accounteService.FindByAPIKey(input.APIKey)
 	if err != nil {
 		return nil, err
