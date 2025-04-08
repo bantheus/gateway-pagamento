@@ -5,6 +5,7 @@ import (
 
 	"github.com/bantheus/gateway-pagamento/api-go/internal/service"
 	"github.com/bantheus/gateway-pagamento/api-go/internal/web/handlers"
+	"github.com/bantheus/gateway-pagamento/api-go/internal/web/middleware"
 	"github.com/go-chi/chi/v5"
 )
 
@@ -12,10 +13,11 @@ type Server struct {
 	router          *chi.Mux
 	server          *http.Server
 	accounteService *service.AccountService
+	invoiceService  *service.InvoiceService
 	port            string
 }
 
-func NewServer(accountService *service.AccountService, port string) *Server {
+func NewServer(accountService *service.AccountService, invoiceService *service.InvoiceService, port string) *Server {
 	return &Server{
 		router:          chi.NewRouter(),
 		accounteService: accountService,
@@ -25,9 +27,20 @@ func NewServer(accountService *service.AccountService, port string) *Server {
 
 func (s *Server) ConfigureRoutes() {
 	accountHandler := handlers.NewAccountHandler(s.accounteService)
+	invoiceHandler := handlers.NewInvoiceHandler(s.invoiceService)
+	authMiddleware := middleware.NewAuthMiddleware(s.accounteService)
 
 	s.router.Post("/accounts", accountHandler.Create)
 	s.router.Get("/accounts", accountHandler.Get)
+
+	s.router.Group(func(r chi.Router) {
+		r.Use(authMiddleware.Authenticate)
+
+		s.router.Post("/invoice", invoiceHandler.Create)
+		s.router.Get("/invoice", invoiceHandler.ListByAccount)
+		s.router.Get("/invoice/{id}", invoiceHandler.GetByID)
+	})
+
 }
 
 func (s *Server) Start() error {
