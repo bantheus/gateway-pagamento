@@ -21,7 +21,7 @@ func (r *InvoiceRepository) Save(invoice *domain.Invoice) error {
     INSERT INTO invoices (id, account_id, amount, status, description, payment_method, card_last_digits, created_at, updated_at)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)`,
 		invoice.ID,
-		invoice.AccountId,
+		invoice.AccountID,
 		invoice.Amount,
 		invoice.Status,
 		invoice.Description,
@@ -45,7 +45,7 @@ func (r *InvoiceRepository) FindByID(id string) (*domain.Invoice, error) {
     WHERE id = $1
   `, id).Scan(
 		&invoice.ID,
-		&invoice.AccountId,
+		&invoice.AccountID,
 		&invoice.Amount,
 		&invoice.Status,
 		&invoice.Description,
@@ -82,7 +82,7 @@ func (r *InvoiceRepository) FindByAccountID(accountId string) ([]*domain.Invoice
 		var invoice domain.Invoice
 		err := rows.Scan(
 			&invoice.ID,
-			&invoice.AccountId,
+			&invoice.AccountID,
 			&invoice.Amount,
 			&invoice.Status,
 			&invoice.Description,
