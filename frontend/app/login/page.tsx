@@ -9,7 +9,7 @@ import AuthForm from "./components/auth-form";
 
 function LoginPage() {
   return (
-    <div className="container mx-auto flex h-svh items-center justify-center px-6">
+    <div className="container mx-auto flex flex-1 items-center justify-center px-6">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl">Autenticação</CardTitle>
