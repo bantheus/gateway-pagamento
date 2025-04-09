@@ -35,7 +35,7 @@ type CreditCard struct {
 	CardHolderName  string
 }
 
-func NewInvoice(accountId string, amount float64, description string, paymentMethod string, card CreditCard) (*Invoice, error) {
+func NewInvoice(accountID string, amount float64, description string, paymentMethod string, card CreditCard) (*Invoice, error) {
 	if amount <= 0 {
 		return nil, ErrInvalidAmount
 	}
@@ -44,7 +44,7 @@ func NewInvoice(accountId string, amount float64, description string, paymentMet
 
 	return &Invoice{
 		ID:             uuid.New().String(),
-		AccountID:      accountId,
+		AccountID:      accountID,
 		Amount:         amount,
 		Status:         StatusPending,
 		Description:    description,
