@@ -1,17 +1,26 @@
 import { CircleDollarSignIcon } from "lucide-react";
-import Link from "next/link";
+import { cookies } from "next/headers";
 
-function Header() {
+import Link from "next/link";
+import UserMenu from "./user-menu";
+
+async function Header() {
+  const cookieStore = await cookies();
+
+  const isAuthPage = cookieStore.get("apiKey")?.value !== undefined;
+
   return (
     <header className="bg-card border-b">
-      <div className="container mx-auto w-full p-6">
+      <div className="container mx-auto flex w-full items-center justify-between p-6">
         <Link
           href="/"
-          className="flex w-fit items-center gap-2 text-xl leading-none font-semibold"
+          className="flex w-fit items-center gap-2 leading-none font-semibold md:text-xl"
         >
           <CircleDollarSignIcon className="size-5 text-blue-400" />
           Gateway de Pagamentos
         </Link>
+
+        {isAuthPage && <UserMenu />}
       </div>
     </header>
   );
