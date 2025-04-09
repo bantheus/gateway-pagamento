@@ -17,7 +17,13 @@ export async function loginAction(_: { error: string }, formData: FormData) {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set("apiKey", apiKey as string);
+  cookieStore.set("apiKey", apiKey as string, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24,
+  });
 
   redirect("/invoices");
 }
