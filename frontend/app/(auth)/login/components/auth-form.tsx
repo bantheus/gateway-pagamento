@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import Form from "next/form";
 import { useActionState, useState } from "react";
-import { loginAction } from "../actions";
+import { loginAction } from "../../actions";
 
 function AuthForm() {
   const [apiKey, setApiKey] = useState("");
