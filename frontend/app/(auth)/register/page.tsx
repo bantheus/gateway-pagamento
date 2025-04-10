@@ -18,19 +18,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useActionState } from "react";
+import Link from "next/link";
+import { useActionState, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerAction } from "../actions";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, { message: "Nome obrigatório" }),
-  email: z.string().email().trim().min(1, { message: "Email obrigatório" }),
+  email: z.string().email({ message: "Email obrigatório" }).trim().min(1),
 });
 
 type FormValues = z.infer<typeof formSchema>;
 
 function RegisterPage() {
+  const [copied, setCopied] = useState(false);
   const [state, formAction, isPending] = useActionState(registerAction, {
     error: "",
     apiKey: null,
@@ -42,7 +44,11 @@ function RegisterPage() {
       name: "",
       email: "",
     },
+    mode: "onSubmit",
   });
+
+  const isFormValid = form.formState.isValid;
+
   return (
     <div className="container mx-auto flex h-svh items-center justify-center px-6">
       <Card className="w-full max-w-md">
@@ -59,9 +65,32 @@ function RegisterPage() {
               <p className="text-muted-foreground text-sm">
                 🚨 Guarde bem sua API Key. Ela será exibida apenas uma vez.
               </p>
-              <div className="bg-muted rounded-md p-4 font-mono text-sm break-all">
+              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
+              <div
+                className="bg-muted cursor-pointer rounded-md p-4 font-mono text-sm break-all"
+                onClick={() => {
+                  if (state.apiKey) {
+                    navigator.clipboard.writeText(state.apiKey);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }
+                }}
+              >
                 {state.apiKey}
               </div>
+              {copied && (
+                <p className="text-xs text-green-600">
+                  ✅ Copiado para a área de transferência
+                </p>
+              )}
+              <p className="text-sm font-medium">
+                Agora use sua chave para acessar o sistema:
+              </p>
+              <Link href="/login">
+                <Button className="w-full cursor-pointer transition-colors duration-300 hover:bg-blue-400 hover:text-white">
+                  Ir para login
+                </Button>
+              </Link>
             </div>
           ) : (
             <Form {...form}>
@@ -73,7 +102,11 @@ function RegisterPage() {
                     <FormItem>
                       <FormLabel>Nome</FormLabel>
                       <FormControl>
-                        <Input placeholder="Ex. Fulano da Silva" {...field} />
+                        <Input
+                          placeholder="Ex. Fulano da Silva"
+                          {...field}
+                          disabled={isPending}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -86,7 +119,11 @@ function RegisterPage() {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="Ex: fulano@email.com" {...field} />
+                        <Input
+                          placeholder="Ex: fulano@email.com"
+                          {...field}
+                          disabled={isPending}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -101,12 +138,21 @@ function RegisterPage() {
 
                 <Button
                   type="submit"
-                  className="w-full transition-colors duration-300 hover:bg-blue-400 hover:text-white"
-                  disabled={isPending}
+                  className="w-full cursor-pointer transition-colors duration-300 hover:bg-blue-400 hover:text-white"
+                  disabled={!isFormValid || isPending}
                 >
                   {isPending ? "Cadastrando..." : "Cadastrar"}
                 </Button>
               </form>
+              <p className="text-muted-foreground mt-4 text-center text-sm">
+                Já tem conta?{" "}
+                <Link
+                  href="/login"
+                  className="text-primary underline transition-colors hover:text-blue-400"
+                >
+                  Faça login
+                </Link>
+              </p>
             </Form>
           )}
         </CardContent>
