@@ -55,5 +55,5 @@ export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("apiKey");
 
-  redirect("/login");
+  redirect("/register");
 }
