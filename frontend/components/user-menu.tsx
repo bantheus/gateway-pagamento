@@ -62,6 +62,10 @@ function UserMenu({ userName }: { userName: string }) {
 
       {/* Desktop Menu */}
       <div className="hidden items-center gap-4 md:flex">
+        <p className="text-foreground text-sm font-medium">
+          Olá, {userName} 👋
+        </p>
+
         <Link
           href="/invoices"
           className="text-foreground flex items-center gap-2 text-sm font-medium transition-colors duration-300 hover:text-blue-400"
