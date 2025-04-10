@@ -14,6 +14,8 @@ import {
 } from "./ui/sheet";
 
 function UserMenu({ userName }: { userName: string }) {
+  const firstName = userName.split(" ")[0];
+
   return (
     <>
       {/* mobile menu*/}
@@ -27,7 +29,7 @@ function UserMenu({ userName }: { userName: string }) {
           <SheetContent className="flex flex-col justify-between py-8">
             <div className="space-y-8">
               <SheetHeader>
-                <SheetTitle className="text-lg">Olá, {userName} 👋</SheetTitle>
+                <SheetTitle className="text-lg">Olá, {firstName} 👋</SheetTitle>
                 <SheetDescription className="">
                   Acesse as opções abaixo
                 </SheetDescription>
@@ -63,7 +65,7 @@ function UserMenu({ userName }: { userName: string }) {
       {/* Desktop Menu */}
       <div className="hidden items-center gap-4 md:flex">
         <p className="text-foreground text-sm font-medium">
-          Olá, {userName} 👋
+          Olá, {firstName} 👋
         </p>
 
         <NavLink
