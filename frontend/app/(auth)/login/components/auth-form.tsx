@@ -11,6 +11,7 @@ import {
   TriangleAlertIcon,
 } from "lucide-react";
 import Form from "next/form";
+import Link from "next/link";
 import { useActionState, useState } from "react";
 import { loginAction } from "../../actions";
 
@@ -65,10 +66,20 @@ function AuthForm() {
           Como obter uma API Key?
         </AlertTitle>
         <AlertDescription>
-          Para obter sua API Key, você precisa criar uma conta de comerciante.
-          Entre em contato com o nosso suporte para mais informações.
+          Para obter uma API Key, você precisa criar uma conta. Clique no link
+          abaixo para se cadastrar.
         </AlertDescription>
       </Alert>
+
+      <p className="text-muted-foreground text-center text-sm">
+        Ainda não tem uma conta?{" "}
+        <Link
+          href="/register"
+          className="text-primary underline transition-colors hover:text-blue-400"
+        >
+          Cadastre-se
+        </Link>
+      </p>
     </Form>
   );
 }
