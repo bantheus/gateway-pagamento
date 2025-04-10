@@ -9,7 +9,7 @@ import InvoiceForm from "./components/invoice-form";
 
 function CreateInvoicePage() {
   return (
-    <div className="container mx-auto w-full max-w-3xl p-6">
+    <div className="container mx-auto flex w-full max-w-4xl items-center justify-center p-6 md:h-full">
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Nova Fatura</CardTitle>
