@@ -13,7 +13,7 @@ import {
   SheetTrigger,
 } from "./ui/sheet";
 
-function UserMenu() {
+function UserMenu({ userName }: { userName: string }) {
   return (
     <>
       {/* mobile menu*/}
@@ -27,7 +27,7 @@ function UserMenu() {
           <SheetContent className="flex flex-col justify-between py-8">
             <div className="space-y-8">
               <SheetHeader>
-                <SheetTitle className="text-lg">Olá, usuário 👋</SheetTitle>
+                <SheetTitle className="text-lg">Olá, {userName} 👋</SheetTitle>
                 <SheetDescription className="">
                   Acesse as opções abaixo
                 </SheetDescription>

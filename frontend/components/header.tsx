@@ -5,9 +5,12 @@ import Link from "next/link";
 import UserMenu from "./user-menu";
 
 async function Header() {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
 
-  const isAuthPage = cookieStore.get("apiKey")?.value !== undefined;
+  const apiKey = (await cookieStore).get("apiKey")?.value;
+  const userName = (await cookieStore).get("userName")?.value;
+
+  const isAuthPage = Boolean(apiKey);
 
   return (
     <header className="bg-card border-b">
@@ -20,7 +23,7 @@ async function Header() {
           Gateway de Pagamentos
         </Link>
 
-        {isAuthPage && <UserMenu />}
+        {isAuthPage && <UserMenu userName={userName || "usuário"} />}
       </div>
     </header>
   );
