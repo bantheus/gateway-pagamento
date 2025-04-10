@@ -54,6 +54,7 @@ export async function loginAction(_: { error: string }, formData: FormData) {
 export async function logoutAction() {
   const cookieStore = await cookies();
   cookieStore.delete("apiKey");
+  cookieStore.delete("userName");
 
   redirect("/register");
 }
