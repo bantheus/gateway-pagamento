@@ -1,7 +1,7 @@
 import { logoutAction } from "@/app/(auth)/actions";
 import { CircleDollarSignIcon, LogOutIcon, MenuIcon } from "lucide-react";
 import Form from "next/form";
-import Link from "next/link";
+import NavLink from "./nav-link";
 import { Button } from "./ui/button";
 import {
   Sheet,
@@ -34,13 +34,13 @@ function UserMenu({ userName }: { userName: string }) {
               </SheetHeader>
 
               <div className="space-y-4 p-4">
-                <Link
+                <NavLink
                   href="/invoices"
-                  className="flex w-fit items-center gap-2 font-medium transition-colors duration-300 hover:text-blue-400"
+                  className="flex items-center gap-2 text-sm font-medium"
                 >
                   <CircleDollarSignIcon className="size-4" />
                   Invoices
-                </Link>
+                </NavLink>
               </div>
             </div>
 
@@ -66,13 +66,13 @@ function UserMenu({ userName }: { userName: string }) {
           Olá, {userName} 👋
         </p>
 
-        <Link
+        <NavLink
           href="/invoices"
-          className="text-foreground flex items-center gap-2 text-sm font-medium transition-colors duration-300 hover:text-blue-400"
+          className="flex items-center gap-2 text-sm font-medium"
         >
           <CircleDollarSignIcon className="size-4" />
           Invoices
-        </Link>
+        </NavLink>
 
         <Form action={logoutAction}>
           <Button
