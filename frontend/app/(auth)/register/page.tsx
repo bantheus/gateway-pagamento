@@ -19,10 +19,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { registerAction } from "../actions";
+import ApiKeyDisplay from "./components/api-key-display";
 
 const formSchema = z.object({
   name: z.string().trim().min(1, { message: "Nome obrigatório" }),
@@ -32,7 +33,6 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 function RegisterPage() {
-  const [copied, setCopied] = useState(false);
   const [state, formAction, isPending] = useActionState(registerAction, {
     error: "",
     apiKey: null,
@@ -61,37 +61,7 @@ function RegisterPage() {
 
         <CardContent>
           {state.apiKey ? (
-            <div className="space-y-4 text-center">
-              <p className="text-muted-foreground text-sm">
-                🚨 Guarde bem sua API Key. Ela será exibida apenas uma vez.
-              </p>
-              {/* biome-ignore lint/a11y/useKeyWithClickEvents: <explanation> */}
-              <div
-                className="bg-muted cursor-pointer rounded-md p-4 font-mono text-sm break-all"
-                onClick={() => {
-                  if (state.apiKey) {
-                    navigator.clipboard.writeText(state.apiKey);
-                    setCopied(true);
-                    setTimeout(() => setCopied(false), 2000);
-                  }
-                }}
-              >
-                {state.apiKey}
-              </div>
-              {copied && (
-                <p className="text-xs text-green-600">
-                  ✅ Copiado para a área de transferência
-                </p>
-              )}
-              <p className="text-sm font-medium">
-                Agora use sua chave para acessar o sistema:
-              </p>
-              <Link href="/login">
-                <Button className="w-full cursor-pointer transition-colors duration-300 hover:bg-blue-400 hover:text-white">
-                  Ir para login
-                </Button>
-              </Link>
-            </div>
+            <ApiKeyDisplay apiKey={state.apiKey} />
           ) : (
             <Form {...form}>
               <form action={formAction} className="space-y-4">
