@@ -2,22 +2,23 @@ import { type NextRequest, NextResponse } from "next/server";
 
 export function middleware(request: NextRequest) {
   const apiKey = request.cookies.get("apiKey")?.value;
-  const pathname = request.nextUrl.pathname;
+  const url = new URL(request.url);
+  const pathname = url.pathname;
 
-  const isAuthRoute = pathname.startsWith("/login");
-  const isProtectedRoute = pathname.startsWith("/invoices");
+  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isProtectedPage = pathname.startsWith("/invoices");
 
-  if (!apiKey && isProtectedRoute) {
-    return NextResponse.redirect(new URL("/login", request.url));
+  if (apiKey && isAuthPage) {
+    return NextResponse.redirect(new URL("/invoices", request.url));
   }
 
-  if (apiKey && isAuthRoute) {
-    return NextResponse.redirect(new URL("/invoices", request.url));
+  if (!apiKey && isProtectedPage) {
+    return NextResponse.redirect(new URL("/register", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/login", "/invoices/:path*"],
+  matcher: ["/login", "/register", "/invoices/:path*"],
 };
